@@ -7,6 +7,9 @@
     },
     "servers": [
         {
+            "url": "https://hidden-garden-48948.herokuapp.com/"
+        },
+        {
             "url": "http://localhost:3000"
         }
     ]
