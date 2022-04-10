@@ -28,35 +28,18 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 const express_1 = __importDefault(require("express"));
 const swagger_ui_express_1 = __importDefault(require("swagger-ui-express"));
-const swagger_jsdoc_1 = __importDefault(require("swagger-jsdoc"));
+const swaggerDocument = __importStar(require("./swaggerDocument.json"));
 const dotenv_1 = __importDefault(require("dotenv"));
 const userHandler_1 = require("./handlers/userHandler");
 const postHandlers_1 = __importDefault(require("./handlers/postHandlers"));
 const bodyParser = __importStar(require("body-parser"));
 const cookie_parser_1 = __importDefault(require("cookie-parser"));
 dotenv_1.default.config({ path: './.env' });
-const options = {
-    definition: {
-        openapi: "3.0.0",
-        info: {
-            title: "Library API",
-            version: "1.0.0",
-            description: "Simple blog for authenticated users to create post then edit or delete it",
-        },
-        servers: [
-            {
-                url: "http://localhost:3000",
-            },
-        ],
-    },
-    apis: ['./handlers/*.js'],
-};
-const specs = (0, swagger_jsdoc_1.default)(options);
 const app = (0, express_1.default)();
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 app.use((0, cookie_parser_1.default)());
-app.use('/swagger', swagger_ui_express_1.default.serve, swagger_ui_express_1.default.setup(specs));
+app.use('/swagger', swagger_ui_express_1.default.serve, swagger_ui_express_1.default.setup(swaggerDocument));
 app.get('/', (req, res) => {
     return res.json({
         status: 'success'
