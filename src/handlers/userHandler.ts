@@ -99,14 +99,12 @@ const showOnePostRelatedUser = async (_req: Request, res: Response) => {
 
 const create = async (_req: Request, res: Response) => {
     try {
-        console.log('register');
         const user: userCreate = {
             name: _req.body.name,
             email: _req.body.email,
             password: _req.body.password
         };
     const valid = validateRegisteration(user);
-        console.log(JSON.stringify(valid));
         if (valid.isEmpty)
         {
         return res.setHeader('Content-Type', 'application/json')
