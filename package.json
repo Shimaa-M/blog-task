@@ -4,7 +4,7 @@
   "description": "authenticated users can make posts and update or delete it",
   "main": "index.js",
   "scripts": {
-    "migrate": "SET NODE_ENV=prod && db-migrate up --config database.json --env prod",
+    "migrate": " db-migrate up ",
     "dev": "ts-node-dev --poll src/index.ts",
     "build": "rimraf ./dist && tsc",
     "start": " npm run migrate && npm run build && node dist/index.js",
