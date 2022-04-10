@@ -6,11 +6,10 @@ dotenv.config({ path: './.env' });
 if (process.env.ENV === 'prod')
 {
     const client = new Pool({
-      
-        host: "POSTGRES_HOST_PROD",
-        database: "POSTGRES_DB_PROD",
-        user: "POSTGRES_USER_PROD",
-        password: "POSTGRES_PASSWORD_PROD"
+        connectionString: process.env.DATABASE_URL,
+        ssl: {
+          rejectUnauthorized: false
+        }
     });
 }
 
