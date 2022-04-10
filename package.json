@@ -4,10 +4,10 @@
   "description": "authenticated users can make posts and update or delete it",
   "main": "index.js",
   "scripts": {
-    "migrate": "db-migrate up",
+    "migrate": "SET NODE_ENV=prod && db-migrate up --config database.json --env prod",
     "dev": "ts-node-dev --poll src/index.ts",
     "build": "rimraf ./dist && tsc",
-    "start": "SET NODE_ENV=production && npm run migration:run && npm run build && node dist/index.js",
+    "start": " npm run migrate && npm run build && node dist/index.js",
     "lint": "eslint . --ext .ts"
   },
   "author": "Shimaa Mahmoud",
