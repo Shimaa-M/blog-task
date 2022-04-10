@@ -31,8 +31,8 @@ app.get('/', (req: Request, res: Response) => {
 app.use('/users', userRoutes);
 app.use('/posts', postRoutes);
 
-const PORT = process.env.PORT || 3000;
-app.listen(PORT,() => {
-    console.log(`Server listening on port ${PORT}`)
+//const PORT = process.env.PORT || 3000;
+app.listen(process.env.PORT || 3000,() => {
+    console.log("Server listening on port 3000")
  
 })
