@@ -1,8 +1,9 @@
 import express, { Request, Response } from 'express';
 import swaggerUI from 'swagger-ui-express';
 import * as swaggerDocument from './swaggerDocument.json'
-
+import cors from 'cors';
 import dotenv from 'dotenv';
+
 import { userRoutes } from './handlers/userHandler';
 import postRoutes from './handlers/postHandlers';
 
@@ -12,6 +13,9 @@ import cookiesParser from 'cookie-parser';
 dotenv.config({ path: './.env' });
 
 const app: express.Application = express();
+
+app.use(cors());
+app.options('*', cors);
 
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
