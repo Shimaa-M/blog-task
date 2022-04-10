@@ -1,4 +1,4 @@
-import express, { Request, Response, Router } from 'express';
+import express, { Request, Response } from 'express';
 import { User, userStore } from '../models/User';
 import { userCreate } from '../DTO/userCreate.dto';
 import jwt from 'jsonwebtoken';
@@ -45,22 +45,22 @@ const index = async (_req: Request, res: Response) => {
         }
 }
 
-const show = async (_req: Request, res: Response) => {
-    try {
-        console.log("nested")
-        const user = await store.show(parseInt(_req.params.id));
-        if (user) {
-            res.setHeader('Content-Type', 'application/json')
-                .status(200).send(user);
-        }else {
-            return res.setHeader('Content-Type', 'application/json')
-            .status(400).end('No user found with this ID')
-        }
-    } catch(err) {
-        return res.setHeader('Content-Type', 'application/json')
-         .status(400).send(err);
-       }
-}
+// const show = async (_req: Request, res: Response) => {
+//     try {
+//         console.log("nested")
+//         const user = await store.show(parseInt(_req.params.id));
+//         if (user) {
+//             res.setHeader('Content-Type', 'application/json')
+//                 .status(200).send(user);
+//         }else {
+//             return res.setHeader('Content-Type', 'application/json')
+//             .status(400).end('No user found with this ID')
+//         }
+//     } catch(err) {
+//         return res.setHeader('Content-Type', 'application/json')
+//          .status(400).send(err);
+//        }
+// }
 
 const showPostsRelatedUser = async (_req: Request, res: Response) => {
     try {
