@@ -8,7 +8,7 @@
     "user": { "ENV": "POSTGRES_USER" },
     "password": { "ENV": "POSTGRES_PASSWORD" }
   },
-  "prod":{
+  "production":{
     "driver": "pg",
     "host": { "ENV": "POSTGRES_HOST_PROD" },
     "port": { "ENV": "POSTGRES_PORT_PROD" },

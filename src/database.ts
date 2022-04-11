@@ -3,7 +3,7 @@ import dotenv from 'dotenv';
 
 dotenv.config({ path: './.env' });
 
-if (process.env.ENV === 'prod')
+if (process.env.ENV === 'production')
 {
     const client = new Pool({
         connectionString: process.env.DATABASE_URL,
