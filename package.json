@@ -7,7 +7,7 @@
     "migrate": "db-migrate up ",
     "dev": "ts-node-dev --poll src/index.ts",
     "build": "rimraf ./dist && tsc",
-    "start": "SET NODE_ENV=prod && npm run build && node dist/index.js",
+    "start": "export NODE_ENV=prod && npm run build && node dist/index.js",
     "lint": "eslint . --ext .ts"
   },
   "author": "Shimaa Mahmoud",
