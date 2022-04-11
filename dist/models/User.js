@@ -13,7 +13,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.userStore = void 0;
-const database_1 = require("../database");
+const database_1 = __importDefault(require("../database"));
 const bcrypt_1 = __importDefault(require("bcrypt"));
 const saltRounds = parseInt(process.env.SALT_ROUNDS);
 const pepper = process.env.BCRYPT_PASSWORD;
@@ -21,7 +21,7 @@ class userStore {
     index() {
         return __awaiter(this, void 0, void 0, function* () {
             try {
-                const conn = yield database_1.client.connect();
+                const conn = yield database_1.default.connect();
                 const sql = `select * from "User" `;
                 const result = yield conn.query(sql);
                 conn.release();
@@ -36,7 +36,7 @@ class userStore {
         return __awaiter(this, void 0, void 0, function* () {
             try {
                 const sql = `SELECT * FROM "User" WHERE id=($1)`;
-                const conn = yield database_1.client.connect();
+                const conn = yield database_1.default.connect();
                 const result = yield conn.query(sql, [id]);
                 const user = result.rows[0];
                 conn.release();
@@ -55,7 +55,7 @@ class userStore {
                   Inner JOIN "Post" 
                   ON "User".id = "Post".user_id
                   WHERE "User".id=($1)`;
-                const conn = yield database_1.client.connect();
+                const conn = yield database_1.default.connect();
                 const result = yield conn.query(sql, [id]);
                 const posts = result.rows;
                 conn.release();
@@ -74,7 +74,7 @@ class userStore {
                   Inner JOIN "Post" 
                   ON "User".id = "Post".user_id
                   WHERE "User".id=($1) AND "Post".id=($2)`;
-                const conn = yield database_1.client.connect();
+                const conn = yield database_1.default.connect();
                 const result = yield conn.query(sql, [user_id, post_id]);
                 const post = result.rows[0];
                 conn.release();
@@ -90,7 +90,7 @@ class userStore {
             try {
                 const sql = `INSERT INTO "User" (name,email,password) VALUES ($1, $2, $3) RETURNING *`;
                 const hash = bcrypt_1.default.hashSync(u.password + pepper, saltRounds);
-                const conn = yield database_1.client.connect();
+                const conn = yield database_1.default.connect();
                 const result = yield conn.query(sql, [u.name, u.email, hash]);
                 const user = result.rows[0];
                 conn.release();
@@ -105,7 +105,7 @@ class userStore {
         return __awaiter(this, void 0, void 0, function* () {
             try {
                 const sql = `DELETE FROM "Post" P Using "User" as U WHERE U.id=($1) AND P.id=($2);`;
-                const conn = yield database_1.client.connect();
+                const conn = yield database_1.default.connect();
                 const result = yield conn.query(sql, [user_id, post_id]);
                 const post = result.rows[0];
                 conn.release();
@@ -119,7 +119,7 @@ class userStore {
     authenticate(email, password) {
         return __awaiter(this, void 0, void 0, function* () {
             try {
-                const conn = yield database_1.client.connect();
+                const conn = yield database_1.default.connect();
                 const sql = `SELECT * FROM "User" WHERE email=($1)`;
                 const result = yield conn.query(sql, [email]);
                 if (result.rowCount == 1) {

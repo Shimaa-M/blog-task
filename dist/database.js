@@ -2,25 +2,27 @@
 var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
-var _a;
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.client = exports.POSTGRES_DIALECT = exports.POSTGRES_PASSWORD = exports.POSTGRES_USER = exports.POSTGRES_DB = exports.POSTGRES_HOST = exports.POSTGRES_DRIVER = void 0;
 const pg_1 = require("pg");
 const dotenv_1 = __importDefault(require("dotenv"));
 dotenv_1.default.config({ path: './.env' });
+let client;
 if (process.env.ENV === 'production') {
-    const client = new pg_1.Pool({
+    client = new pg_1.Pool({
         connectionString: process.env.DATABASE_URL,
         ssl: {
             rejectUnauthorized: false
         }
     });
 }
-_a = process.env, exports.POSTGRES_DRIVER = _a.POSTGRES_DRIVER, exports.POSTGRES_HOST = _a.POSTGRES_HOST, exports.POSTGRES_DB = _a.POSTGRES_DB, exports.POSTGRES_USER = _a.POSTGRES_USER, exports.POSTGRES_PASSWORD = _a.POSTGRES_PASSWORD, exports.POSTGRES_DIALECT = _a.POSTGRES_DIALECT;
-exports.client = new pg_1.Pool({
-    host: exports.POSTGRES_HOST,
-    database: exports.POSTGRES_DB,
-    user: exports.POSTGRES_USER,
-    password: exports.POSTGRES_PASSWORD
-});
-exports.default = exports.client;
+else {
+    const { POSTGRES_DRIVER, POSTGRES_HOST, POSTGRES_DB, POSTGRES_USER, POSTGRES_PASSWORD, POSTGRES_DIALECT } = process.env;
+    client = new pg_1.Pool({
+        host: POSTGRES_HOST,
+        database: POSTGRES_DB,
+        user: POSTGRES_USER,
+        password: POSTGRES_PASSWORD
+    });
+}
+console.log(client);
+exports.default = client;

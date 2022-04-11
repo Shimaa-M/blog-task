@@ -8,14 +8,17 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
         step((generator = generator.apply(thisArg, _arguments || [])).next());
     });
 };
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.postStore = void 0;
-const database_1 = require("../database");
+const database_1 = __importDefault(require("../database"));
 class postStore {
     index() {
         return __awaiter(this, void 0, void 0, function* () {
             try {
-                const conn = yield database_1.client.connect();
+                const conn = yield database_1.default.connect();
                 const sql = `select * from "Post"`;
                 const result = yield conn.query(sql);
                 conn.release();
@@ -30,7 +33,7 @@ class postStore {
         return __awaiter(this, void 0, void 0, function* () {
             try {
                 const sql = `SELECT * FROM "Post" WHERE id=($1) `;
-                const conn = yield database_1.client.connect();
+                const conn = yield database_1.default.connect();
                 const result = yield conn.query(sql, [id]);
                 const Post = result.rows[0];
                 conn.release();
@@ -45,7 +48,7 @@ class postStore {
         return __awaiter(this, void 0, void 0, function* () {
             try {
                 const sql = `INSERT INTO "Post" (title,content,user_id) VALUES ($1, $2, $3) RETURNING *`;
-                const conn = yield database_1.client.connect();
+                const conn = yield database_1.default.connect();
                 const result = yield conn.query(sql, [p.title, p.content, p.user_id]);
                 const post = result.rows[0];
                 conn.release();
@@ -60,7 +63,7 @@ class postStore {
         return __awaiter(this, void 0, void 0, function* () {
             try {
                 const sql = `UPDATE "Post" SET title=$1 , content=$2, user_id=$3 WHERE id=$4 RETURNING *`;
-                const conn = yield database_1.client.connect();
+                const conn = yield database_1.default.connect();
                 const result = yield conn.query(sql, [p.title, p.content, p.user_id, p.id]);
                 const post = result.rows[0];
                 conn.release();
@@ -75,7 +78,7 @@ class postStore {
         return __awaiter(this, void 0, void 0, function* () {
             try {
                 const sql = `DELETE FROM "Post" WHERE id=($1)`;
-                const conn = yield database_1.client.connect();
+                const conn = yield database_1.default.connect();
                 const result = yield conn.query(sql, [id]);
                 const post = result.rows[0];
                 conn.release();
