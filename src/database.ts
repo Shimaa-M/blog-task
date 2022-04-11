@@ -4,7 +4,7 @@ import dotenv from 'dotenv';
 dotenv.config({ path: './.env' });
 let client: Pool;
 
-if (process.env.ENV == 'dev') {
+if (process.env.NODE_ENV == 'dev') {
     const {
                 POSTGRES_HOST,
                 POSTGRES_DB,
