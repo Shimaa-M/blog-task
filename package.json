@@ -4,10 +4,11 @@
   "description": "authenticated users can make posts and update or delete it",
   "main": "index.js",
   "scripts": {
+   
     "migrate": " db-migrate up ",
     "dev": " ts-node-dev --poll src/index.ts",
     "build": "rimraf ./dist && tsc",
-    "start": "npm run build && node dist/index.js",
+    "start": "node dist/index.js",
     "lint": "eslint . --ext .ts"
   },
   "author": "Shimaa Mahmoud",
