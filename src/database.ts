@@ -32,4 +32,4 @@ else {
     });  
 }
 
-export default client
+export default client;

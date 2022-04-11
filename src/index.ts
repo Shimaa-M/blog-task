@@ -1,6 +1,6 @@
 import express, { Request, Response } from 'express';
 import swaggerUI from 'swagger-ui-express';
-import * as swaggerDocument from './swaggerDocument.json'
+import * as swaggerDocument from './swaggerDocument.json';
 import cors from 'cors';
 import dotenv from 'dotenv';
 
@@ -19,9 +19,7 @@ app.options('*', cors);
 
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
-app.use(cookiesParser())
-
-
+app.use(cookiesParser());
 
 app.use('/swagger', swaggerUI.serve, swaggerUI.setup(swaggerDocument));    
 
@@ -36,7 +34,6 @@ app.use('/users', userRoutes);
 app.use('/posts', postRoutes);
 
 //const PORT = process.env.PORT || 3000;
-app.listen(process.env.PORT || 3000,() => {
-    console.log("Server listening on port 3000")
- 
-})
+app.listen(process.env.PORT || 3000, () => {
+    console.log("Server listening on port 3000");
+});

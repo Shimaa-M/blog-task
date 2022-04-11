@@ -2,7 +2,7 @@ import express, { Request, Response } from 'express';
 import { User, userStore } from '../models/User';
 import { userCreate } from '../DTO/userCreate.dto';
 import jwt from 'jsonwebtoken';
-import {validateRegisteration} from '../utilities/validateRegisteration'
+import { validateRegisteration } from '../utilities/validateRegisteration';
 import isLogged from '../utilities/isLogged';
 import { edit } from './postHandlers';
 export const  userRoutes = express.Router({ mergeParams: true });
@@ -10,23 +10,23 @@ export const  userRoutes = express.Router({ mergeParams: true });
 const store = new userStore();
 
 const createSendToken = (user: User, statusCode: number, _req: Request, res: Response) => {
-    const token = jwt.sign({user}, (process.env.JWT_TOKEN as unknown)as string);
+    const token = jwt.sign({ user }, (process.env.JWT_TOKEN as unknown) as string);
     res.cookie('jwt', token, {
         expires: new Date(
-          Date.now() + parseInt((process.env.JWT_COOKIE_EXPIRES_IN as unknown)as string) * 24 * 60 * 60 * 1000
+            Date.now() + parseInt((process.env.JWT_COOKIE_EXPIRES_IN as unknown) as string) * 24 * 60 * 60 * 1000
         ),
-      httpOnly: true,
-      secure: _req.secure || _req.headers['x-forwarded-proto'] === 'https'
+        httpOnly: true,
+        secure: _req.secure || _req.headers['x-forwarded-proto'] === 'https'
     });
 
     res.setHeader('Content-Type', 'application/json').status(statusCode).send({
-      status: 'success',
-      token,
-      data: {
-        user
-      }
+        status: 'success',
+        token,
+        data: {
+            user
+        }
     });
-  }
+};
  
 
 const index = async (_req: Request, res: Response) => {
@@ -37,13 +37,13 @@ const index = async (_req: Request, res: Response) => {
                 .status(200).send(users);
         }
         else {
-            return res.end('No users found')
+            return res.end('No users found');
         }
-    } catch(err) {
-         return res.setHeader('Content-Type', 'application/json')
-             .status(400).send(err);
-        }
-}
+    } catch (err) {
+        return res.setHeader('Content-Type', 'application/json')
+            .status(400).send(err);
+    }
+};
 
 // const show = async (_req: Request, res: Response) => {
 //     try {
@@ -64,38 +64,38 @@ const index = async (_req: Request, res: Response) => {
 
 const showPostsRelatedUser = async (_req: Request, res: Response) => {
     try {
-        const id =parseInt(res.locals.user_id);
+        const id = parseInt(res.locals.user_id);
         const posts = await store.showPostsRelatedUser(id);
         if (posts) {
             res.setHeader('Content-Type', 'application/json')
                 .status(200).send(posts);
-        }else {
+        } else {
             return res.setHeader('Content-Type', 'application/json')
-            .status(400).end('No posts found for this user')
+                .status(400).end('No posts found for this user');
         }
-    } catch(err) {
+    } catch (err) {
         return res.setHeader('Content-Type', 'application/json')
-         .status(400).send(err);
-       }
-}
+            .status(400).send(err);
+    }
+};
 
 const showOnePostRelatedUser = async (_req: Request, res: Response) => {
     try {
         const user_id = parseInt(res.locals.user_id);
         const post_id = parseInt(_req.params.id);
-        const post = await store.showOnePostRelatedUser(user_id,post_id);
+        const post = await store.showOnePostRelatedUser(user_id, post_id);
         if (post) {
             res.setHeader('Content-Type', 'application/json')
                 .status(200).send(post);
-        }else {
+        } else {
             return res.setHeader('Content-Type', 'application/json')
-            .status(400).end('No posts found for this user')
+                .status(400).end('No posts found for this user');
         }
-    } catch(err) {
+    } catch (err) {
         return res.setHeader('Content-Type', 'application/json')
-         .status(400).send(err);
-       }
-}
+            .status(400).send(err);
+    }
+};
 
 const create = async (_req: Request, res: Response) => {
     try {
@@ -104,68 +104,67 @@ const create = async (_req: Request, res: Response) => {
             email: _req.body.email,
             password: _req.body.password
         };
-    const valid = validateRegisteration(user);
-        if (valid.isEmpty)
-        {
-        return res.setHeader('Content-Type', 'application/json')
-               .status(400).end('All Fields are required');
+        const valid = validateRegisteration(user);
+        if (valid.isEmpty) {
+            return res.setHeader('Content-Type', 'application/json')
+                .status(400).end('All Fields are required');
         }
         if (!valid.validEmail) {
-        return res.setHeader('Content-Type', 'application/json')
-            .status(400).end('Please enter valid email'); 
+            return res.setHeader('Content-Type', 'application/json')
+                .status(400).end('Please enter valid email');
         }
         const newUser = await store.create(user);
-        createSendToken(newUser,201,_req,res);
-    } catch(err) {
-     return res.setHeader('Content-Type', 'application/json')
-      .status(400).send(err);
+        createSendToken(newUser, 201, _req, res);
+    } catch (err) {
+        return res.setHeader('Content-Type', 'application/json')
+            .status(400).send(err);
     }
-}
+};
 
 const destroyPost = async (_req: Request, res: Response) => {
     try {
         const user_id = parseInt(res.locals.user_id);
-        const post_id = parseInt(_req.params.id)
-        const deleted = await store.deletePost(user_id,post_id);
+        const post_id = parseInt(_req.params.id);
+        const deleted = await store.deletePost(user_id, post_id);
         if (deleted) {
             res.setHeader('Content-Type', 'application/json')
                 .status(204).send(deleted);
         }
         else {
             return res.setHeader('Content-Type', 'application/json')
-                .status(400).end('No post found with this ID')
-            }
-    } catch(err) {
+                .status(400).end('No post found with this ID');
+        }
+    } catch (err) {
         return res.setHeader('Content-Type', 'application/json')
-         .status(400).send(err);
-       }
-}
+            .status(400).send(err);
+    }
+};
 
 const authenticate = async (_req: Request, res: Response) => {
-  const {email , password} = _req.body;
+    const { email, password } = _req.body;
     try {
-        const user = await store.authenticate(email,password);
+        const user = await store.authenticate(email, password);
        
-        if(!user){
-            res.status(401).json({message : 'error login credintial' });
+        if (!user) {
+            res.status(401).json({ message: 'error login credintial' });
         }
-        else createSendToken(user,200,_req,res);
-    } catch(err) {
-     return res.setHeader('Content-Type', 'application/json')
-      .status(400).send(err);
+        else createSendToken(user, 200, _req, res);
+    } catch (err) {
+        return res.setHeader('Content-Type', 'application/json')
+            .status(400).send(err);
     }
-}
+};
 
- userRoutes.route('/').get(index)
- userRoutes.route('/register').post(create);
+userRoutes.route('/').get(index);
+userRoutes.route('/register').post(create);
 userRoutes.route('/login').post(authenticate);
 
-userRoutes.use(isLogged)  
+userRoutes.use(isLogged);
 userRoutes.route('/posts').get(showPostsRelatedUser);  
 userRoutes
   .route('/posts/:id')
   .get(showOnePostRelatedUser)
   .patch(edit)
-    .delete(destroyPost);  
+  .delete(destroyPost);  
   
 
