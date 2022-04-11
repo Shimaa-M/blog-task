@@ -52,7 +52,6 @@ const create = async (_req: Request, res: Response) => {
             content: _req.body.content,
             user_id: user_id
         };
-        console.log(post)
     const isEmpty = validatePost(post);
       
         if (isEmpty)
