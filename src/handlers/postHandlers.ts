@@ -92,7 +92,7 @@ export const edit = async (_req: Request, res: Response) => {
                 .status(200).send(updatedPost);
         } else {
             return res.setHeader('Content-Type', 'application/json')
-                .status(400).end('No Post found with this ID')
+                .status(400).end('No Post found with this ID');
         }
     } catch (err) {
         res.setHeader('Content-Type', 'application/json')
