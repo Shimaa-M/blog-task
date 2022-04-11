@@ -10,6 +10,14 @@ module.exports = {
         "@typescript-eslint"
     ],
     "rules": {
-        "no-console": 1
+        "no-console": 1,
+        "quotes": [
+            "error",
+            "single"
+        ],
+        "semi": [
+            "error",
+            "always"
+        ]
     }
 }
