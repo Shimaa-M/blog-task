@@ -1,4 +1,4 @@
-import { client } from "../database";
+import  client  from "../database";
 import { userCreate } from "../DTO/userCreate.dto";
 import bcrypt from 'bcrypt';
 import { Post } from "./Post";
