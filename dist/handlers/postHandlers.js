@@ -12,7 +12,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.postRoutes = void 0;
+exports.edit = exports.postRoutes = void 0;
 const express_1 = __importDefault(require("express"));
 const Post_1 = require("../models/Post");
 const validatePost_1 = require("../utilities/validatePost");
@@ -113,6 +113,7 @@ const edit = (_req, res) => __awaiter(void 0, void 0, void 0, function* () {
             .status(400).send(err);
     }
 });
+exports.edit = edit;
 const destroy = (_req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         const deleted = yield store.delete(parseInt(_req.params.id));
@@ -136,13 +137,6 @@ exports.postRoutes.route('/create').post(create);
 exports.postRoutes
     .route('/:id')
     .get(show)
-    .patch(edit)
+    .patch(exports.edit)
     .delete(destroy);
-// const postRoutes = (app: express.Application) => {
-//   app.get('/all-posts', index)
-//   app.get('/posts/:id', show)
-//   app.post('/create-post',isLogged, create)
-//   app.delete('/posts/:id',isLogged, destroy)
-//   app.put('/posts/:id',isLogged, edit)
-// };
 exports.default = exports.postRoutes;

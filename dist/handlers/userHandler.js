@@ -18,6 +18,7 @@ const User_1 = require("../models/User");
 const jsonwebtoken_1 = __importDefault(require("jsonwebtoken"));
 const validateRegisteration_1 = require("../utilities/validateRegisteration");
 const isLogged_1 = __importDefault(require("../utilities/isLogged"));
+const postHandlers_1 = require("./postHandlers");
 exports.userRoutes = express_1.default.Router({ mergeParams: true });
 const store = new User_1.userStore();
 const createSendToken = (user, statusCode, _req, res) => {
@@ -51,24 +52,22 @@ const index = (_req, res) => __awaiter(void 0, void 0, void 0, function* () {
             .status(400).send(err);
     }
 });
-const show = (_req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    try {
-        console.log("nested");
-        const user = yield store.show(parseInt(_req.params.id));
-        if (user) {
-            res.setHeader('Content-Type', 'application/json')
-                .status(200).send(user);
-        }
-        else {
-            return res.setHeader('Content-Type', 'application/json')
-                .status(400).end('No user found with this ID');
-        }
-    }
-    catch (err) {
-        return res.setHeader('Content-Type', 'application/json')
-            .status(400).send(err);
-    }
-});
+// const show = async (_req: Request, res: Response) => {
+//     try {
+//         console.log("nested")
+//         const user = await store.show(parseInt(_req.params.id));
+//         if (user) {
+//             res.setHeader('Content-Type', 'application/json')
+//                 .status(200).send(user);
+//         }else {
+//             return res.setHeader('Content-Type', 'application/json')
+//             .status(400).end('No user found with this ID')
+//         }
+//     } catch(err) {
+//         return res.setHeader('Content-Type', 'application/json')
+//          .status(400).send(err);
+//        }
+// }
 const showPostsRelatedUser = (_req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         const id = parseInt(res.locals.user_id);
@@ -106,40 +105,14 @@ const showOnePostRelatedUser = (_req, res) => __awaiter(void 0, void 0, void 0, 
             .status(400).send(err);
     }
 });
-/**
- * @swagger
- * /users/register:
- *   post:
- *     summary: Register new user
- *     tags: [Users]
- *     parameters:
- *       - in: path
- *         name: register
- *         schema:
- *           type: object
- *         required: true
- *         description: {name,email,password}
- *     responses:
- *       201:
- *         description: The user is registered
- *         contens:
- *           application/json:
- *             schema:
- *               $ref: '#/components/schemas/User'
- *       400:
- *         description: The user can't be added
- */
 const create = (_req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
-        console.log('register');
         const user = {
             name: _req.body.name,
             email: _req.body.email,
             password: _req.body.password
         };
-        console.log(user);
         const valid = (0, validateRegisteration_1.validateRegisteration)(user);
-        console.log(JSON.stringify(valid));
         if (valid.isEmpty) {
             return res.setHeader('Content-Type', 'application/json')
                 .status(400).end('All Fields are required');
@@ -153,29 +126,6 @@ const create = (_req, res) => __awaiter(void 0, void 0, void 0, function* () {
     }
     catch (err) {
         return res.setHeader('Content-Type', 'application/json')
-            .status(400).send(err);
-    }
-});
-const editPost = (_req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    try {
-        const post = {
-            id: parseInt(_req.params.id),
-            title: _req.body.title,
-            content: _req.body.content,
-            user_id: parseInt(res.locals.user_id)
-        };
-        const updatedPost = yield store.editPost(post);
-        if (updatedPost) {
-            res.setHeader('Content-Type', 'application/json')
-                .status(200).send(updatedPost);
-        }
-        else {
-            return res.setHeader('Content-Type', 'application/json')
-                .status(400).end('No post found with this ID to be updated');
-        }
-    }
-    catch (err) {
-        res.setHeader('Content-Type', 'application/json')
             .status(400).send(err);
     }
 });
@@ -221,5 +171,5 @@ exports.userRoutes.route('/posts').get(showPostsRelatedUser);
 exports.userRoutes
     .route('/posts/:id')
     .get(showOnePostRelatedUser)
-    .patch(editPost)
+    .patch(postHandlers_1.edit)
     .delete(destroyPost);

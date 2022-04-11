@@ -18,54 +18,6 @@ const bcrypt_1 = __importDefault(require("bcrypt"));
 const saltRounds = parseInt(process.env.SALT_ROUNDS);
 const pepper = process.env.BCRYPT_PASSWORD;
 class userStore {
-    /**
-   * @swagger
-   * components:
-   *   schemas:
-   *     User:
-   *       type: object
-   *       required:
-   *         - name
-   *         - email
-   *         - password
-   *       properties:
-   *         id:
-   *           type: number
-   *           description: The auto-generated id of the user
-   *         name:
-   *           type: string
-   *           description: The user name
-   *         email:
-   *           type: string
-   *           description: The user email
-   *       example:
-   *         id: 1
-   *         name: Shimaa Mahmoud
-   *         email: engshimaamahmoud@gmail.com
-   *         password: xxxxxxxxxx
-   */
-    /**
-     * @swagger
-     * tags:
-     *   name: Users
-     *   description: The Users managing API
-     */
-    /**
-     * @swagger
-     * /users:
-     *   get:
-     *     summary: Returns the list of all the users
-     *     tags: [Users]
-     *     responses:
-     *       200:
-     *         description: The list of the users
-     *         content:
-     *           application/json:
-     *             schema:
-     *               type: array
-     *               items:
-     *                 $ref: '#/components/schemas/User'
-     */
     index() {
         return __awaiter(this, void 0, void 0, function* () {
             try {
@@ -146,21 +98,6 @@ class userStore {
             }
             catch (err) {
                 throw new Error(`Could not add new user. Error: ${err}`);
-            }
-        });
-    }
-    editPost(p) {
-        return __awaiter(this, void 0, void 0, function* () {
-            try {
-                const sql = `UPDATE "User" SET name=$1 , email=$2, password=$3 FROM "Post" WHERE "User".id= RETURNING *`;
-                const conn = yield database_1.client.connect();
-                const result = yield conn.query(sql, [p.title, p.content, p.user_id, p.id]);
-                const post = result.rows[0];
-                conn.release();
-                return post;
-            }
-            catch (err) {
-                throw new Error(`Could not update the user. Error: ${err}`);
             }
         });
     }

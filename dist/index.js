@@ -29,6 +29,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const express_1 = __importDefault(require("express"));
 const swagger_ui_express_1 = __importDefault(require("swagger-ui-express"));
 const swaggerDocument = __importStar(require("./swaggerDocument.json"));
+const cors_1 = __importDefault(require("cors"));
 const dotenv_1 = __importDefault(require("dotenv"));
 const userHandler_1 = require("./handlers/userHandler");
 const postHandlers_1 = __importDefault(require("./handlers/postHandlers"));
@@ -36,6 +37,8 @@ const bodyParser = __importStar(require("body-parser"));
 const cookie_parser_1 = __importDefault(require("cookie-parser"));
 dotenv_1.default.config({ path: './.env' });
 const app = (0, express_1.default)();
+app.use((0, cors_1.default)());
+app.options('*', cors_1.default);
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 app.use((0, cookie_parser_1.default)());
@@ -47,7 +50,7 @@ app.get('/', (req, res) => {
 });
 app.use('/users', userHandler_1.userRoutes);
 app.use('/posts', postHandlers_1.default);
-const port = process.env.PORT || 3000;
-app.listen(port, () => {
-    console.log(`Server listening on port ${port}`);
+//const PORT = process.env.PORT || 3000;
+app.listen(process.env.PORT || 3000, () => {
+    console.log("Server listening on port 3000");
 });
