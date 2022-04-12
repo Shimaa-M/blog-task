@@ -4,7 +4,7 @@
 Simple blog for authenticated users to create post then edit or delete it
 
 ### Technologies
-typescript/ nodejs/ postgres/ swagger/ deplou to heroku/ migration/ docker image
+typescript/ nodejs/ postgres/ swagger/ deplou to heroku/ migration/ docker
 
 ### Setup
 download the folder to your local machine
@@ -23,6 +23,9 @@ http://localhost:3000/swagger
 
 ##### for production use
 https://hidden-garden-48948.herokuapp.com/swaggger
+
+##### To run DOCKER image
+docker-compose up
 
 
 
