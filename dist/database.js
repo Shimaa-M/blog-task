@@ -13,7 +13,8 @@ if (process.env.NODE_ENV == 'dev') {
         host: POSTGRES_HOST,
         database: POSTGRES_DB,
         user: POSTGRES_USER,
-        password: POSTGRES_PASSWORD
+        password: POSTGRES_PASSWORD,
+        port: process.env.POSTGRES_PORT
     });
 }
 else {
@@ -24,5 +25,4 @@ else {
         }
     });
 }
-console.log(client);
 exports.default = client;

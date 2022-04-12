@@ -32,7 +32,7 @@ const isLogged = (_req, res, next) => __awaiter(void 0, void 0, void 0, function
             const id = Object.values(userFound)[0];
             const currentUser = yield store.show(parseInt(id));
             if (currentUser == undefined) {
-                res.status(401).send("user not found");
+                res.status(401).send('user not found');
             }
             // THERE IS A LOGGED IN USER
             res.locals.user = currentUser;
@@ -40,11 +40,11 @@ const isLogged = (_req, res, next) => __awaiter(void 0, void 0, void 0, function
             next();
         }
         catch (err) {
-            res.status(401).send("Not authorized");
+            res.status(401).send('Not authorized');
         }
     }
     else {
-        res.status(401).send("Not authorized");
+        res.status(401).send('Not authorized');
     }
 });
 exports.default = isLogged;

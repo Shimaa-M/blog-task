@@ -64,7 +64,6 @@ const create = (_req, res) => __awaiter(void 0, void 0, void 0, function* () {
             content: _req.body.content,
             user_id: user_id
         };
-        console.log(post);
         const isEmpty = (0, validatePost_1.validatePost)(post);
         if (isEmpty) {
             return res.setHeader('Content-Type', 'application/json')

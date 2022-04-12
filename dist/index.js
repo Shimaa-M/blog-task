@@ -52,5 +52,5 @@ app.use('/users', userHandler_1.userRoutes);
 app.use('/posts', postHandlers_1.default);
 //const PORT = process.env.PORT || 3000;
 app.listen(process.env.PORT || 3000, () => {
-    console.log("Server listening on port 3000");
+    console.log('Server listening on port 3000');
 });

@@ -22,7 +22,7 @@ class userStore {
         return __awaiter(this, void 0, void 0, function* () {
             try {
                 const conn = yield database_1.default.connect();
-                const sql = `select * from "User" `;
+                const sql = 'select * from "User" ';
                 const result = yield conn.query(sql);
                 conn.release();
                 return result.rows;
@@ -35,7 +35,7 @@ class userStore {
     show(id) {
         return __awaiter(this, void 0, void 0, function* () {
             try {
-                const sql = `SELECT * FROM "User" WHERE id=($1)`;
+                const sql = 'SELECT * FROM "User" WHERE id=($1)';
                 const conn = yield database_1.default.connect();
                 const result = yield conn.query(sql, [id]);
                 const user = result.rows[0];
@@ -88,7 +88,7 @@ class userStore {
     create(u) {
         return __awaiter(this, void 0, void 0, function* () {
             try {
-                const sql = `INSERT INTO "User" (name,email,password) VALUES ($1, $2, $3) RETURNING *`;
+                const sql = 'INSERT INTO "User" (name,email,password) VALUES ($1, $2, $3) RETURNING *';
                 const hash = bcrypt_1.default.hashSync(u.password + pepper, saltRounds);
                 const conn = yield database_1.default.connect();
                 const result = yield conn.query(sql, [u.name, u.email, hash]);
@@ -104,7 +104,7 @@ class userStore {
     deletePost(user_id, post_id) {
         return __awaiter(this, void 0, void 0, function* () {
             try {
-                const sql = `DELETE FROM "Post" P Using "User" as U WHERE U.id=($1) AND P.id=($2);`;
+                const sql = 'DELETE FROM "Post" P Using "User" as U WHERE U.id=($1) AND P.id=($2);';
                 const conn = yield database_1.default.connect();
                 const result = yield conn.query(sql, [user_id, post_id]);
                 const post = result.rows[0];
@@ -120,7 +120,7 @@ class userStore {
         return __awaiter(this, void 0, void 0, function* () {
             try {
                 const conn = yield database_1.default.connect();
-                const sql = `SELECT * FROM "User" WHERE email=($1)`;
+                const sql = 'SELECT * FROM "User" WHERE email=($1)';
                 const result = yield conn.query(sql, [email]);
                 if (result.rowCount == 1) {
                     const user = result.rows[0];
