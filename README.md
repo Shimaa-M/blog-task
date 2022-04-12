@@ -11,12 +11,13 @@ download the folder to your local machine
 ```
 git clone https://github.com/Shimoo123/blog-task.git
 npm install
-npm run dev
+npm run start:dev
 ```
+### Hosted on HEROKU
+https://hidden-garden-48948.herokuapp.com
 
 ### Endpoint to use
 #### you can use all routes of API using Swagger doc
-
 ##### for local use
 http://localhost:3000/swagger
 
