@@ -19,10 +19,10 @@ https://hidden-garden-48948.herokuapp.com
 ### Endpoint to use
 #### you can use all routes of API using Swagger doc
 ##### for local use
-http://localhost:3000/swagger
+http://localhost:3000/swagger/
 
 ##### for production use
-https://hidden-garden-48948.herokuapp.com/swaggger
+https://hidden-garden-48948.herokuapp.com/swagger
 
 ##### To run DOCKER image
 docker-compose up
